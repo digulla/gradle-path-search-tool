@@ -3,7 +3,7 @@
 
 This is a demo project for a tool to search command line executables in Gradle build files at configuration time.
 
-When using the standard (Exec task)[https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Exec.html], you don't know where Gradle will search the executable at runtime. It should use the PATH variable but which value? The one which was active when the Gradle daemon started last time? The one at configuration time? Or the one when the task is finally executed?
+When using the standard [Exec task](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Exec.html), you don't know where Gradle will search the executable at runtime. It should use the PATH variable but which value? The one which was active when the Gradle daemon started last time? The one at configuration time? Or the one when the task is finally executed?
 
 # Usage
 
@@ -50,7 +50,7 @@ In addition, you can register input and output files if the tool modifies those.
 
 Run gradle several times with different values of `CACHE_TEST` to see the effect.
 
-# Errors
+# Error Handling
 
 I've put some effort into giving you good error messages when the new tool fails. When the command can't be found, you'll see something like this:
 
@@ -78,3 +78,9 @@ If the command fails, the absolute path and all arguments will be reported:
     * What went wrong:
     Execution failed for task ':app:failingCommand'.
     > Error running '/usr/bin/sh' with arguments [-c, exit 1]
+
+# How to use this in your code
+
+Make sure you have no uncommitted changes.
+Copy everything in [buildSrc](buildSrc) into your project.
+Merge the [build.gradle.kts](buildSrc%2Fbuild.gradle.kts) and [shared.gradle](buildSrc%2Fshared.gradle) files.
