@@ -103,4 +103,4 @@ class WindowsLocator : Locator {
 }
 
 class SearchFailedException(name: String, paths: List<Path>) :
-        RuntimeException("Unable to locate '${name}' in:\n${paths.joinToString(separator = "\n", prefix = "- '", postfix = "'")}") {}
+        RuntimeException("Unable to locate '${name}' in:\n- ${paths.map{  "'$it'" }.joinToString(separator = "\n- ")}") {}
