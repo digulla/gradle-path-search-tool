@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>gradle-path-search-tool</name>
-	<comment>Project gradle-path-search-tool created by Buildship.</comment>
+	<name>build-logic</name>
+	<comment>Project build-logic created by Buildship.</comment>
 	<projects>
 	</projects>
 	<buildSpec>
