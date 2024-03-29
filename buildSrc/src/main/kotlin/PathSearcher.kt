@@ -26,6 +26,17 @@ open class PathSearcher(searchPaths: List<Path>) {
         }
 
         fun of(vararg paths: String) = PathSearcher(paths.map(Paths::get).toList())
+
+        val IS_WINDOWS = isWindows()
+
+        fun isWindows(): Boolean {
+            val osName = System.getProperty("os.name")
+            return if (osName == null) {
+                false
+            } else {
+                osName.startsWith("Windows")
+            }
+        }
     }
 
     constructor() : this(splitPath())
@@ -48,14 +59,7 @@ open class PathSearcher(searchPaths: List<Path>) {
         }
     }
 
-    open fun isWindows(): Boolean {
-        val osName = System.getProperty("os.name")
-        return if (osName == null) {
-            false
-        } else {
-            osName.startsWith("Windows")
-        }
-    }
+    open fun isWindows() = IS_WINDOWS
 
     open fun locate(name: String): Path {
         for (path in paths) {
