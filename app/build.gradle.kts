@@ -21,10 +21,46 @@ application {
     mainClass = "org.example.app.AppKt"
 }
 
-val echoCommand = PathSearcher().locate("echo")
+val pathSearcher = PathSearcher()
+val echoCommand = pathSearcher.locate("echo")
 val echoTask = task<Exec>("echoTask") {
     println("echoCommand=$echoCommand")
-	commandLine(echoCommand, "$echoCommand works")
+	commandLine(echoCommand, "echoTask:", "$echoCommand", "works")
+}
+
+val echoTask2 = task<ExecWithPathTask>("echoTask2") {
+    command(echoCommand)
+    arguments("echoTask2:", "$echoCommand", "works")
+}
+
+val cachableTask = task<ExecWithPathTask>("cachableTask") {
+    command("echo", pathSearcher)
+    arguments("cachableTask, you should see this only once", System.getenv("CACHE_TEST") ?: "CACHE_TEST is not set")
+    enableCaching()
+}
+
+println("--- missingCommand, reported at configuration time --------------------------------------------")
+try {
+    task<ExecWithPathTask>("missingCommand") {
+        command("no-such-command", pathSearcher)
+    }
+} catch(e: Exception) {
+    println(e.message)
+}
+println("--- missingCommand, reported at configuration time --------------------------------------------")
+
+// Run this manually from the commandline to see the error you get when a command fails
+// > ./gradlew :app:failingCommand
+// > ./gradlew :app:failingCommand --stacktrace
+task<ExecWithPathTask>("failingCommand") {
+    if (PathSearcher.isWindows()) {
+        // TODO Untested
+        val searchProjectRoot = PathSearcherBuilder().add(project.rootDir.toPath()).build()
+        command("always-fail", searchProjectRoot)
+    } else {
+        command("sh", pathSearcher)
+        arguments("-c", "exit 1")
+    }
 }
 
 /*
@@ -65,4 +101,6 @@ As a build tools go, Gradle doesn't make me efficient.
 
 tasks.named("compileKotlin", org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile::class.java) {
     dependsOn(echoTask)
+    dependsOn(echoTask2)
+    dependsOn(cachableTask)
 }
