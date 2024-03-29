@@ -4,6 +4,7 @@ import java.nio.file.Paths
 import org.slf4j.LoggerFactory
 
 open class PathSearcherBuilder(val paths: MutableList<Path> = mutableListOf()) {
+    // TODO Does this work? If not, how do I get a logger from Gradle?
     private val log = LoggerFactory.getLogger(javaClass)
 
     fun addFromEnvionment(name: String, vararg extension: String): PathSearcherBuilder {

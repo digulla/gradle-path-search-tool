@@ -51,6 +51,12 @@ try {
 }
 println("--- missingCommand, reported at configuration time --------------------------------------------")
 
+println("--- Test logging, when adding non-existing folders and files to PathSearcherBuilder -----------")
+PathSearcherBuilder()
+        .add("no-such-folder")
+        .add(project.buildFile.toPath())
+println("--- Test logging, when adding non-existing folders and files to PathSearcherBuilder -----------")
+
 // Run this manually from the commandline to see the error you get when a command fails
 // > ./gradlew :app:failingCommand
 // > ./gradlew :app:failingCommand --stacktrace
