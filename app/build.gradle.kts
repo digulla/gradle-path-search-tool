@@ -33,6 +33,11 @@ val echoTask2 = task<ExecWithPathTask>("echoTask2") {
     arguments("echoTask2:", "$echoCommand", "works")
 }
 
+val echoTask3 = task<ExecWithPathTask>("echoTask3") {
+    command("echo", pathSearcher)
+    arguments("echoTask3:", "$echoCommand", "works")
+}
+
 val cachableTask = task<ExecWithPathTask>("cachableTask") {
     command("echo", pathSearcher)
     arguments("cachableTask, you should see this only once", System.getenv("CACHE_TEST") ?: "CACHE_TEST is not set")
@@ -102,5 +107,6 @@ As a build tools go, Gradle doesn't make me efficient.
 tasks.named("compileKotlin", org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile::class.java) {
     dependsOn(echoTask)
     dependsOn(echoTask2)
+    dependsOn(echoTask3)
     dependsOn(cachableTask)
 }

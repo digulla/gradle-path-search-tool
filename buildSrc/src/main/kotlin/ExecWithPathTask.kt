@@ -66,7 +66,7 @@ abstract class ExecWithPathTask : DefaultTask() {
 
             execResult.set(execAction.execute())
         } catch(e: Exception) {
-            throw RuntimeException("Error running ${command.get()} with arguments ${arguments.get()}", e)
+            throw RuntimeException("Error running '${command.get()}' with arguments ${arguments.get()}", e)
         }
     }
 }
